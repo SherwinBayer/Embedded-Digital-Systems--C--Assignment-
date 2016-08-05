@@ -1,0 +1,226 @@
+/*
+ * Assignment 3 MCU.c
+ *
+ * Created: 4/05/2016 2:07:20 PM
+ * Author : wqp7533
+ */ 
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <string.h>
+#include <stddef.h>
+
+#define startConverion (ADCSRA |= (1<<6))
+#define conversionRunning (ADCSRA & (1<<6))
+
+// declaring function prototypes
+void setup(void);
+ISR(USART1_RX_vect);
+char readADC(char channel);
+
+// declaring/initialising global variables
+enum states {start, instruction, stop, data1, data2}; // States within the receive interrupt
+volatile unsigned char instructionReceived; // variable to hold instruction byte
+volatile char receivedInstr; // Flag variable indicating that an instruction byte is received
+volatile int combination = 0; // Combination variable that combines both the most and least significant byte
+volatile int lSB = 0; 
+volatile int mSB = 0;
+
+int main(void)
+{
+	enum mainStates {txCheck, readPINA, setPORTC, readPOT1, readPOT2, setLamp, readBrightness, readTemp, setHeat, setMotor}; // States that will determine which instruction to process
+	char state; // Holds the current state
+	char adchResult; // Stores the appropriate ADCH value depending on instruction that is to be processed 
+	setup();
+	while (1) 
+    {
+		if(receivedInstr) // If instruction received flag variable is set (Once a full instruction has been received)
+		{
+			if(instructionReceived == 0x00) // Received checking communications instruction
+			{
+				state = txCheck;
+			}
+			
+			if(instructionReceived == 0x01) // Received read MCU PINA instruction
+			{
+				state = readPINA;
+			}
+			
+			if(instructionReceived == 0x0A) // Received set MCU PORTC instruction
+			{
+				state = setPORTC;
+			}
+			if(instructionReceived == 0x02) // Received read MCU POT1 instruction
+			{
+				state = readPOT1;
+			}
+			if(instructionReceived == 0x03) // Received read MCU POT2 instruction
+			{
+				state = readPOT2;
+			}
+			if(instructionReceived == 0x05) // Received read Brightness from MCU Light Sensor instruction
+			{
+				state = readBrightness;
+			}
+			if(instructionReceived == 0x0C) // Received set Brightness of the MCU Lamp instruction
+			{
+				state = setLamp;
+			}
+			if(instructionReceived == 0x04) // Received read Temp from MCU Temperature Sensor instruction
+			{
+				state = readTemp;
+			}
+			if(instructionReceived == 0x0B) // Received set Temperature of MCU Heater instruction 
+			{
+				state = setHeat;
+			}
+			if(instructionReceived == 0x0D) // Received set Motor Speed of the MCU Motor instruction
+			{
+				state = setMotor;
+			}
+			
+			
+			if(state != setMotor && state != readTemp && state != setHeat) 
+			{
+				OCR1A = 0; // Essentially if Temp Control Tab is not open, turn the motor off
+				OCR1C = 0; // Turn heater off too	
+			}
+						
+			switch(state)
+			{
+				case txCheck:
+				UDR1 = 0x0F; // Send back this byte to acknowledge working communications
+				break;
+				
+				case readPINA:
+				UDR1 = PINA; // Send back the value of PINA
+				break;
+				
+				case setPORTC:
+				PORTC = combination; // Display the combined data bytes received on PORTC
+				UDR1 = instructionReceived; // Send back the same instruction received
+				break;
+				
+				case readPOT1:
+				adchResult = readADC(0b01100010); // Read Channel 2
+				UDR1 = adchResult; // Send ADCH value back to C# program
+				break;
+				
+				case readPOT2:
+				adchResult = readADC(0b01100001); // Read Channel 1
+				UDR1 = adchResult; // Send ADCH value back to C# program
+				break;
+				
+				case readBrightness:
+				adchResult = readADC(0b01100000); // Read Channel 0
+				UDR1 = adchResult; // Send ADCH value back to C# program
+				break;
+				
+				case setLamp:
+				OCR1B = 4 * combination; // Set OCR1B (Lamp Brightness) according to value received from C# program
+				UDR1 = instructionReceived; // Send back the same instruction received
+				break;
+				
+				case readTemp:
+				adchResult = readADC(0b01100011); // Read Channel 3 
+				UDR1 = adchResult; // Send ADCH value back to C# program
+				break;
+				
+				case setHeat:
+				OCR1C = 4 * combination; // Heater is turned on to 100% (Only turn heater on to 100% if Temp Control Tab is open)
+				UDR1 = instructionReceived; // Send back the same instruction received
+				break;
+				
+				case setMotor:
+				OCR1A = combination; // Set OCR1A (Motor Speed) according to value received from C# program
+				UDR1 = instructionReceived; // Send back the same instruction received 
+				break;
+			}
+			
+			receivedInstr = 0; // Clear the instruction received flag
+		}
+	}
+}
+
+void setup(void)
+{
+	DDRA = 0x00; // PINA set up for input
+	DDRE = 0x03; // DDRE set up for multiplexed output
+	DDRC = 0xFF; // PORTC set up for output
+	DDRB = 0b11110000; // Port B setting up output for the Heater, Motor and Lamp
+	PORTC = 0x00; // PORTC is initially turned off
+	PORTE = 0x00; // Allows for MCU's toggle switches to be used
+	UCSR1B = 0b10011000; // RX Complete Interrupt Enable, Receiver Enabled, Transmitter Enabled
+	UCSR1C = 0b00000110; // 8 bit Character size, No parity, 1 stop bit, Asynchronous mode
+	UBRR1 = 12; // 38400 bps
+	ADCSRA = 0b10000111; // Enable ADC, Prescaler 256
+	TCCR1A = 0b10101010; // Clear on compare match, set at TOP for Channel A, B and C (Motor, Lamp, Heater) Fast PWM Mode 14
+	TCCR1B = 0b00011001; // Fast PWM Mode 14, Prescaler 1
+	ICR1 = 399; // Generating a 20 kHz PWM Frequency, 399/100 = 3.99 = 4, Hence 4 * value of lamp brightness/heat sent from C# program sets the corresponding OCR1 value
+	sei(); // Enabling global interrupts
+}
+
+// Function which returns the ADCH value according to the channel specified as a parameter 
+char readADC(char channel)
+{
+	ADMUX = channel;
+	startConverion;
+	while(conversionRunning);
+	return ADCH;
+}
+
+ISR(USART1_RX_vect)
+{
+	static unsigned char key; // Data received is stored in this variable
+	static unsigned char state = start; // When program is first run, state must be in start
+	
+	key = UDR1;
+	switch(state)
+	{
+		case start:
+			if(key == 0x53) // Received start byte
+			state = instruction; // Then change to instruction state
+			break;
+
+		case instruction:
+			instructionReceived = key;
+			// If instruction received is to set PORTC, set Light, set Heater or set Motor Speed 
+			if(instructionReceived == 0x0A || instructionReceived == 0x0B || instructionReceived == 0x0C || instructionReceived == 0x0D) 
+			{
+				state = data1; 
+			}
+			else
+			{
+				state = stop;
+			}
+			break;
+		
+		case data1:
+			lSB = key; // Receiving first byte from BitConverter.GetBytes(portCData);
+			state = data2;
+			break;
+		
+		case data2:
+			mSB = key; // Receiving second byte from BitConverter.GetBytes(portCData);
+			if(mSB >= 1)
+			{
+				combination = (mSB|lSB*256); // Combine two bytes 
+			}
+			else
+			{
+				combination = (mSB|lSB); // Combine two bytes 
+			}
+			state = stop;
+			break;
+		
+		case stop:
+			if (key == 0xAA) // Received stop byte
+			{
+				state = start;
+				receivedInstr = 1; // Set flag variable indicating that instruction is ready to be processed
+			}
+			break;
+	}
+	
+}
+

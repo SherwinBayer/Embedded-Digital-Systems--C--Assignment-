@@ -1,0 +1,29 @@
+C:\Users\Sherwin\Documents\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\bin\Debug\Assignment 3.exe.config
+C:\Users\Sherwin\Documents\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\bin\Debug\Assignment 3.exe
+C:\Users\Sherwin\Documents\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\bin\Debug\Assignment 3.pdb
+C:\Users\Sherwin\Documents\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.csprojResolveAssemblyReference.cache
+C:\Users\Sherwin\Documents\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment_3.Form1.resources
+C:\Users\Sherwin\Documents\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment_3.Properties.Resources.resources
+C:\Users\Sherwin\Documents\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.csproj.GenerateResource.Cache
+C:\Users\Sherwin\Documents\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.exe
+C:\Users\Sherwin\Documents\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.pdb
+E:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\bin\Debug\Assignment 3.exe.config
+E:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.exe
+E:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.pdb
+E:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\bin\Debug\Assignment 3.exe
+E:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\bin\Debug\Assignment 3.pdb
+E:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.csprojResolveAssemblyReference.cache
+E:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment_3.Form1.resources
+E:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment_3.Properties.Resources.resources
+E:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.csproj.GenerateResource.Cache
+F:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\bin\Debug\Assignment 3.exe.config
+F:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.exe
+F:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.pdb
+F:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\bin\Debug\Assignment 3.exe
+F:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\bin\Debug\Assignment 3.pdb
+F:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.csprojResolveAssemblyReference.cache
+F:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment_3.Form1.resources
+F:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment_3.Properties.Resources.resources
+F:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\Assignment 3.csproj.GenerateResource.Cache
+F:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\AquaControls.AquaGauge.resources
+E:\Uni - Year 4\Embedded Digital Systems (Honors)\Assignment 3\Assignment 3\Assignment 3\Assignment 3\obj\Debug\AquaControls.AquaGauge.resources
